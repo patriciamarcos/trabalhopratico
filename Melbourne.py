@@ -1,20 +1,18 @@
 import pandas as pd
-###1. Reclha de Dados
+###Reclha de Dados
 #carregar os dados dois arquivos CSV
 dados1 = pd.read_csv('C:\\Users\\carlo\\OneDrive\\PycharmProjects\\projeto\\melbourne_housing.csv')
 dados2 = pd.read_csv('C:\\Users\\carlo\\OneDrive\\PycharmProjects\\projeto\\Melbourne_housings.csv', low_memory=False)
 
-df1 = dados1.drop(columns={'Rooms','SellerG','Date','Propertycount'})
-df2 = dados2.drop(columns={'Rooms','SellerG','Date','Propertycount','ParkingArea'})
+df1 = dados1.drop(columns={'Rooms','SellerG','Date','Propertycount','Suburb','Address','Type', 'Method', 'CouncilArea', 'Regionname'})
+df2 = dados2.drop(columns={'Rooms','SellerG','Date','Propertycount','ParkingArea','Suburb','Address','Type', 'Method', 'CouncilArea', 'Regionname'})
+
 
 #Exibie as rimeiras linhas para garantir que os dados foram carregados
 print("Dados do ficheiro 1:")
 print(df1.head())
-
 print("\nDados do ficheiro 2:")
 print(df2.head())
-
-
 
 ###Integração de Dados
 df_combinado = pd.concat([df1, df2], axis=0)
