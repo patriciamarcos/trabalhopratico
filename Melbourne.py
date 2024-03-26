@@ -1,20 +1,30 @@
 import pandas as pd
 ###1. Reclha de Dados
 #carregar os dados dois arquivos CSV
-dados1 = pd.read_csv('arquivo1.csv')
-dados2 = pd.read_csv('arquivo.csv')
+dados1 = pd.read_csv('C:\\Users\\carlo\\OneDrive\\PycharmProjects\\projeto\\melbourne_housing.csv')
+dados2 = pd.read_csv('C:\\Users\\carlo\\OneDrive\\PycharmProjects\\projeto\\Melbourne_housings.csv', low_memory=False)
+
+df1 = dados1.drop(columns={'Rooms','SellerG','Date','Propertycount'})
+df2 = dados2.drop(columns={'Rooms','SellerG','Date','Propertycount','ParkingArea'})
 
 #Exibie as rimeiras linhas para garantir que os dados foram carregados
-print(f"Dados do arquivo 1:")
-print(dados1.head())
+print("Dados do ficheiro 1:")
+print(df1.head())
 
-print(f"Dados do arquivo 2:")
-print(dados2.head())
+print("\nDados do ficheiro 2:")
+print(df2.head())
 
-###2. Integração de Dados
-#combinar os dois conjuntos de dados em um único conjunto de dados
-conjunto_de_dados = pd.concat([dados1, dados2], ignore_index=True)
 
-#exigibir as primeiras linhas do conjunto de dados ombinado
-print(f"conjunto de dados combinado:")
-print(conjunto_de_dados.head())
+
+###Integração de Dados
+df_combinado = pd.concat([df1, df2], axis=0)
+
+print("\nConjunto de dados combinado:")
+print(df_combinado.head())
+
+df_combinado.to_csv('dados_combinado_melbourne.csv', index=False)
+
+
+
+
+
