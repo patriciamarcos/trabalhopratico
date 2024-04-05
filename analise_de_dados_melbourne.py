@@ -1,4 +1,5 @@
 import pandas as pd
+import math
 def calcular_media(valores):
     return sum(valores) / len(valores)
 def calcular_mediana(valores):
@@ -17,6 +18,32 @@ def calcular_minimo(valores):
     return min(valores)
 def calcular_maximo(valores):
     return max(valores)
+def calcular_variancia(valores):
+    total = sum(valores)
+    media = total / len(valores)
+    diferencas_quadraticas = sum((x - media) ** 2 for x in valores)
+    variancia = diferencas_quadraticas / (len(valores) - 1)
+    return variancia
+
+#Função para calcular amplitude
+def calcular_amplitude(lista):
+    amplitude = max(lista) - min(lista)
+    return amplitude
+
+#Função para calcular os quadris
+def calcular_quartis(lista):
+    lista_ordenada = sorted(lista)
+    n = len(lista_ordenada)
+
+    q1_index = (n + 1) // 4
+    q2_index = (n + 1) // 2
+    q3_index = 3 * (n + 1) // 4
+
+    q1 = lista_ordenada[q1_index - 1] if n % 2 != 0 else (lista_ordenada[q1_index - 1] + lista_ordenada[q1_index]) / 2
+    q2 = lista_ordenada[q2_index - 1] if n % 2 != 0 else (lista_ordenada[q2_index - 1] + lista_ordenada[q2_index]) / 2
+    q3 = lista_ordenada[q3_index - 1] if n % 2 != 0 else (lista_ordenada[q3_index - 1] + lista_ordenada[q3_index]) / 2
+
+    return {'Q1': q1, 'Q2': q2, 'Q3': q3}
 
 dados_combinado = pd.read_csv('dados_combinado_california.csv')
 
@@ -29,10 +56,19 @@ for coluna in dados_combinado.columns:
         'Mediana': calcular_mediana(valores),
         'Desvio Padrão': calcular_desvio_padrao(valores),
         'Mínimo': calcular_minimo(valores),
-        'Máximo': calcular_maximo(valores)
+        'Máximo': calcular_maximo(valores),
+        'Variância': calcular_variancia(valores),
+        'Amplitude': calcular_amplitude(valores),
+        'Quartis': calcular_quartis(valores)
     }
 for coluna, estatisticas in estatisticas_descritivas.items():
     print(f"Estatísticas para a coluna '{coluna}':")
     for estatistica, valor in estatisticas.items():
         print(f"{estatistica}: {valor}")
     print()
+
+def covariancia(Price, Distance):
+    media_x = sum(Price) / len(Price)
+    media_y = sum(Distance) / len(Distance)
+    calcular_covariancia = sum((x - media_x)*(y - media_y) for x, y in zip(X, Y))/ (len(X) - 1)
+    return calcular_covariancia
