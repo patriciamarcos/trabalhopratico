@@ -1,8 +1,8 @@
 import pandas as pd
 ###Reclha de Dados
 #carregar os dados dois arquivos CSV
-dados1 = pd.read_csv('C:\\Users\\carlo\\OneDrive\\PycharmProjects\\projeto\\melbourne_housing.csv')
-dados2 = pd.read_csv('C:\\Users\\carlo\\OneDrive\\PycharmProjects\\projeto\\Melbourne_housings.csv', low_memory=False)
+dados1 = pd.read_csv('C:\\Users\\patri\\Desktop\\ubi\\bsc_iacd\\2023_2024\\2_semestre\\elem IA\\trabalho_pratico\\dados\\melbourne_housing.csv')
+dados2 = pd.read_csv('C:\\Users\\patri\\Desktop\\ubi\\bsc_iacd\\2023_2024\\2_semestre\\elem IA\\trabalho_pratico\\dados\\Melbourne_housings.csv', low_memory=False)
 
 df1 = dados1.drop(columns={'Rooms','SellerG','Date','Propertycount','Suburb','Address','Type', 'Method', 'CouncilArea', 'Regionname'})
 df2 = dados2.drop(columns={'Rooms','SellerG','Date','Propertycount','ParkingArea','Suburb','Address','Type', 'Method', 'CouncilArea', 'Regionname'})
