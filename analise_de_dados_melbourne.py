@@ -70,5 +70,5 @@ for coluna, estatisticas in estatisticas_descritivas.items():
 def covariancia(Price, Distance):
     media_x = sum(Price) / len(Price)
     media_y = sum(Distance) / len(Distance)
-    calcular_covariancia = sum((x - media_x)*(y - media_y) for x, y in zip(X, Y))/ (len(X) - 1)
+    calcular_covariancia = sum((Price - media_x)*(Distance - media_y) for x, y in zip(Price, Distance))/ (len(Price) - 1)
     return calcular_covariancia

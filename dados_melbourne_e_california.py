@@ -3,8 +3,8 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 #carregar os dados dois arquivos CSV
-dados1 = pd.read_csv('C:\\Python\\trabalhopratico\\dados_combinado_california.csv')
-dados2 = pd.read_csv('C:\\Python\\trabalhopratico\\dados_combinado_melbourne.csv')
+dados1 = pd.read_csv('C:\\Users\\carlo\\OneDrive\\Documentos\\GitHub\\trabalhopratico\\dados_combinado_california.csv')
+dados2 = pd.read_csv('C:\\Users\\carlo\\OneDrive\\Documentos\\GitHub\\trabalhopratico\\dados_combinado_melbourne.csv')
 
 print("Dados do ficheiro 1:")
 print(dados1.head())
@@ -22,7 +22,7 @@ df_combinado.to_csv('dados_combinados.csv', index=False)
 dados_combinados = df_combinado.drop(columns={'Population','Households', 'Distance_to_LA', 'Distance_to_SanDiego', 'Distance_to_SanJose', 'Distance_to_SanFrancisco', 'Tot_Rooms', 'Suburb', 'Address', 'Type', 'Method', 'Postcode', 'Bedroom2', 'Car', 'BuildingArea', 'CouncilArea', 'Regionname'})
 
 nome_arquivo = 'dados_combinados.csv'
-df = pd.read_csv('C:\\Python\\trabalhopratico\\dados_combinados.csv')
+df = pd.read_csv('C:\\\Users\\carlo\\OneDrive\\Documentos\\GitHub\\trabalhopratico\\dados_combinados.csv')
 
 valores_ausentes = df.isnull().sum()
 
