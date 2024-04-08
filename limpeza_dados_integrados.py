@@ -1,7 +1,8 @@
 import pandas as pd
 from datetime import datetime
-from scipy.stats import mstats
+from scipy.stats.mstats import winsorize
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 from sklearn.preprocessing import MinMaxScaler
 import seaborn as sns
 
@@ -25,15 +26,14 @@ mediana_por_coluna = colunas_numericas.median()
 df_combinado[colunas_numericas.columns] = colunas_numericas.fillna(mediana_por_coluna)
 print(df_combinado)
 
+
 #Tratamento outliers
 #colunas_para_winsorize = df_combinado.columns.difference(['Address'])
 
-# Aplicar Winsorização Simétrica em todas as colunas selecionadas
+# Aplicar Winsorização em todas as colunas selecionadas
 #for coluna in colunas_para_winsorize:
-#    df_combinado[coluna] = mstats.winsorize(df_combinado[coluna], limits=(0.05, 0.05))
+#    df_combinado[coluna] = winsorize(df_combinado[coluna], limits=[0.05, 0.05])
 
-# Verificar o DataFrame resultante
-#print(df_combinado)
 
 #Normalização de Dados por Min-Max Scaling
 colunas_para_normalizar = df_combinado.columns.difference(['Address'])
@@ -52,12 +52,7 @@ for coluna in colunas_para_plotar:
 ####Apresentação narrativa(gráficos)
 colunas_para_incluir = df_combinado.columns.difference(['Address'])
 
-# Crie o mapa de calor
-plt.figure(figsize=(10, 8))  # Ajuste o tamanho conforme necessário
+plt.figure(figsize=(10, 8))
 sns.heatmap(df_combinado[colunas_para_incluir].corr(), annot=True, cmap='coolwarm', fmt=".2f")
-
-# Adicione um título ao mapa de calor
-plt.title("Mapa de Calor de Correlação (sem a coluna_a_manter)")
-
-# Exiba o mapa de calor
+plt.title("Mapa de Calor de Correlação")
 plt.show()
