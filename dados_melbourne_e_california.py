@@ -4,9 +4,6 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 
 #carregar os dados dois arquivos CSV
-
-dados1 = pd.read_csv('C:\\Users\\carlo\\OneDrive\\Documentos\\GitHub\\trabalhopratico\\dados_combinado_california.csv')
-dados2 = pd.read_csv('C:\\Users\\carlo\\OneDrive\\Documentos\\GitHub\\trabalhopratico\\dados_combinado_melbourne.csv')
 dados1 = pd.read_csv('C:\\Users\\patri\\Desktop\\ubi\\bsc_iacd\\2023_2024\\2_semestre\\elem IA\\trabalho_pratico\\dados\\California_Houses.csv')
 dados2 = pd.read_csv('C:\\Users\\patri\\Desktop\\ubi\\bsc_iacd\\2023_2024\\2_semestre\\elem IA\\trabalho_pratico\\dados\\Melbourne_housings.csv', low_memory=False)
 
@@ -18,7 +15,6 @@ df2 = df2.rename(columns={'YearBuilt': 'Age', 'Longtitude': 'Longitude', 'Distan
 
 ano_atual = datetime.now().year
 df2['Age'] = ano_atual - df2['Age']
-
 
 print("Dados do ficheiro 1:")
 print(df1.head())
@@ -36,16 +32,6 @@ valores_ausentes = df_combinado.isnull().sum()
 print(f"Valores em falta em cada coluna:")
 print(valores_ausentes)
 
-
-dados_combinados = df_combinado.drop(columns={'Population','Households', 'Distance_to_LA', 'Distance_to_SanDiego', 'Distance_to_SanJose', 'Distance_to_SanFrancisco', 'Tot_Rooms', 'Suburb', 'Address', 'Type', 'Method', 'Postcode', 'Bedroom2', 'Car', 'BuildingArea', 'CouncilArea', 'Regionname'})
-
-nome_arquivo = 'dados_combinados.csv'
-df = pd.read_csv('C:\\\Users\\carlo\\OneDrive\\Documentos\\GitHub\\trabalhopratico\\dados_combinados.csv')
-
-valores_ausentes = df.isnull().sum()
-
-# Cria o gráfico de barras
-
 plt.figure(figsize=(10, 6))
 valores_ausentes.plot(kind='bar', color='skyblue')
 plt.title('Quantidade de Valores em Falta por Coluna')
@@ -56,8 +42,37 @@ plt.tight_layout()
 plt.show()
 
 #Deteta outliers
-colunas_para_plotar = df_combinado.columns.difference(['Address'])
+def calcular_quantidade_outliers(df_combinado, coluna_a_manter):
+    # Selecionar apenas as colunas que não são a 'coluna_a_manter'
+    colunas_para_calcular_outliers = df_combinado.columns.difference([coluna_a_manter])
 
+    # Calcular os quartis para todas as colunas selecionadas
+    Q1 = df_combinado[colunas_para_calcular_outliers].quantile(0.25)
+    Q3 = df_combinado[colunas_para_calcular_outliers].quantile(0.75)
+
+    # Calcular o intervalo interquartil (IQR) para todas as colunas selecionadas
+    IQR = Q3 - Q1
+
+    # Definir os limites para identificar outliers para todas as colunas selecionadas
+    limite_inferior = Q1 - 1.5 * IQR
+    limite_superior = Q3 + 1.5 * IQR
+
+    # Identificar outliers em cada coluna selecionada
+    outliers = (df_combinado[colunas_para_calcular_outliers] < limite_inferior) | (df_combinado[colunas_para_calcular_outliers] > limite_superior)
+
+    # Calcular a quantidade de outliers em cada coluna selecionada
+    quantidade_outliers_por_coluna = outliers.sum()
+
+    return quantidade_outliers_por_coluna
+
+# Suponha que 'df_combinado' seja o seu DataFrame e 'Address' seja a coluna que você deseja manter sem calcular os outliers
+quantidade_outliers = calcular_quantidade_outliers(df_combinado, 'Address')
+
+# Verificar a quantidade de outliers em cada coluna
+print("Quatidade de Outliers:")
+print(quantidade_outliers)
+
+colunas_para_plotar = df_combinado.columns.difference(['Address'])
 for coluna in colunas_para_plotar:
     plt.figure()
     plt.scatter(df_combinado.index, df_combinado[coluna])
