@@ -3,7 +3,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from datetime import datetime
 
-#carregar os dados dois arquivos CSV
+
 dados1 = pd.read_csv('C:\\Users\\carlo\\OneDrive\\PycharmProjects\\projeto\\California_Houses.csv')
 dados2 = pd.read_csv('C:\\Users\\carlo\\OneDrive\\PycharmProjects\\projeto\\Melbourne_housings.csv', low_memory=False)
 
@@ -41,8 +41,37 @@ plt.tight_layout()
 plt.show()
 
 #Deteta outliers
-colunas_para_plotar = df_combinado.columns.difference(['Address'])
+def calcular_quantidade_outliers(df_combinado, coluna_a_manter):
+    # Selecionar apenas as colunas que não são a 'coluna_a_manter'
+    colunas_para_calcular_outliers = df_combinado.columns.difference([coluna_a_manter])
 
+    # Calcular os quartis para todas as colunas selecionadas
+    Q1 = df_combinado[colunas_para_calcular_outliers].quantile(0.25)
+    Q3 = df_combinado[colunas_para_calcular_outliers].quantile(0.75)
+
+    # Calcular o intervalo interquartil (IQR) para todas as colunas selecionadas
+    IQR = Q3 - Q1
+
+    # Definir os limites para identificar outliers para todas as colunas selecionadas
+    limite_inferior = Q1 - 1.5 * IQR
+    limite_superior = Q3 + 1.5 * IQR
+
+    # Identificar outliers em cada coluna selecionada
+    outliers = (df_combinado[colunas_para_calcular_outliers] < limite_inferior) | (df_combinado[colunas_para_calcular_outliers] > limite_superior)
+
+    # Calcular a quantidade de outliers em cada coluna selecionada
+    quantidade_outliers_por_coluna = outliers.sum()
+
+    return quantidade_outliers_por_coluna
+
+# Suponha que 'df_combinado' seja o seu DataFrame e 'Address' seja a coluna que você deseja manter sem calcular os outliers
+quantidade_outliers = calcular_quantidade_outliers(df_combinado, 'Address')
+
+# Verificar a quantidade de outliers em cada coluna
+print("Quatidade de Outliers:")
+print(quantidade_outliers)
+
+colunas_para_plotar = df_combinado.columns.difference(['Address'])
 for coluna in colunas_para_plotar:
     plt.figure()
     plt.scatter(df_combinado.index, df_combinado[coluna])
