@@ -20,6 +20,7 @@ print("Dados do ficheiro 1:")
 print(df1.head())
 print("\nDados do ficheiro 2:")
 print(df2.head())
+
 #Integração de Dados
 df_combinado = pd.concat([df1, df2], axis=0)
 print("\nConjunto de dados combinado:")
