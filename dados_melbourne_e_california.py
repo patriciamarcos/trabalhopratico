@@ -4,11 +4,8 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 
 #carregar os dados dois arquivos CSV
-
-dados1 = pd.read_csv('C:\\Users\\carlo\\OneDrive\\Documentos\\GitHub\\trabalhopratico\\dados_combinado_california.csv')
-dados2 = pd.read_csv('C:\\Users\\carlo\\OneDrive\\Documentos\\GitHub\\trabalhopratico\\dados_combinado_melbourne.csv')
-dados1 = pd.read_csv('C:\\Users\\patri\\Desktop\\ubi\\bsc_iacd\\2023_2024\\2_semestre\\elem IA\\trabalho_pratico\\dados\\California_Houses.csv')
-dados2 = pd.read_csv('C:\\Users\\patri\\Desktop\\ubi\\bsc_iacd\\2023_2024\\2_semestre\\elem IA\\trabalho_pratico\\dados\\Melbourne_housings.csv', low_memory=False)
+dados1 = pd.read_csv('C:\\Users\\carlo\\OneDrive\\PycharmProjects\\projeto\\California_Houses.csv')
+dados2 = pd.read_csv('C:\\Users\\carlo\\OneDrive\\PycharmProjects\\projeto\\Melbourne_housings.csv', low_memory=False)
 
 df1 = dados1.drop(columns={'Median_Income','Population','Households', 'Distance_to_LA', 'Distance_to_SanDiego', 'Distance_to_SanJose', 'Distance_to_SanFrancisco'})
 df2 = dados2.drop(columns={'Suburb', 'Type', 'Method', 'Postcode', 'SellerG','Date', 'Car', 'CouncilArea', 'Regionname', 'Propertycount', 'ParkingArea', 'BuildingArea'})
@@ -19,32 +16,20 @@ df2 = df2.rename(columns={'YearBuilt': 'Age', 'Longtitude': 'Longitude', 'Distan
 ano_atual = datetime.now().year
 df2['Age'] = ano_atual - df2['Age']
 
-
 print("Dados do ficheiro 1:")
 print(df1.head())
 print("\nDados do ficheiro 2:")
 print(df2.head())
-
 #Integração de Dados
 df_combinado = pd.concat([df1, df2], axis=0)
 print("\nConjunto de dados combinado:")
 print(df_combinado.head())
 df_combinado.to_csv('dados_integrados.csv', index=False)
 
-# Criar o gráfico de barras para valores em falta
+#Criar o gráfico de barras para valores em falta
 valores_ausentes = df_combinado.isnull().sum()
 print(f"Valores em falta em cada coluna:")
 print(valores_ausentes)
-
-
-dados_combinados = df_combinado.drop(columns={'Population','Households', 'Distance_to_LA', 'Distance_to_SanDiego', 'Distance_to_SanJose', 'Distance_to_SanFrancisco', 'Tot_Rooms', 'Suburb', 'Address', 'Type', 'Method', 'Postcode', 'Bedroom2', 'Car', 'BuildingArea', 'CouncilArea', 'Regionname'})
-
-nome_arquivo = 'dados_combinados.csv'
-df = pd.read_csv('C:\\\Users\\carlo\\OneDrive\\Documentos\\GitHub\\trabalhopratico\\dados_combinados.csv')
-
-valores_ausentes = df.isnull().sum()
-
-# Cria o gráfico de barras
 
 plt.figure(figsize=(10, 6))
 valores_ausentes.plot(kind='bar', color='skyblue')
