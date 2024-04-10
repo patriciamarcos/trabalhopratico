@@ -45,7 +45,7 @@ def calcular_quartis(lista):
 
     return {'Q1': q1, 'Q2': q2, 'Q3': q3}
 
-dados_combinado = pd.read_csv('dados_combinado_california.csv')
+dados_combinado = pd.read_csv('dados_combinado_melbourne.csv')
 
 estatisticas_descritivas = {}
 
