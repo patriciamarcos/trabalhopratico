@@ -3,9 +3,9 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from datetime import datetime
 
-
-dados1 = pd.read_csv('C:\\Users\\carlo\\OneDrive\\PycharmProjects\\projeto\\California_Houses.csv')
-dados2 = pd.read_csv('C:\\Users\\carlo\\OneDrive\\PycharmProjects\\projeto\\Melbourne_housings.csv', low_memory=False)
+#carregar os dados dois arquivos CSV
+dados1 = pd.read_csv('C:\\Users\\patri\\Desktop\\ubi\\bsc_iacd\\2023_2024\\2_semestre\\elem IA\\trabalho_pratico\\dados\\California_Houses.csv')
+dados2 = pd.read_csv('C:\\Users\\patri\\Desktop\\ubi\\bsc_iacd\\2023_2024\\2_semestre\\elem IA\\trabalho_pratico\\dados\\Melbourne_housings.csv', low_memory=False)
 
 df1 = dados1.drop(columns={'Median_Income','Population','Households', 'Distance_to_LA', 'Distance_to_SanDiego', 'Distance_to_SanJose', 'Distance_to_SanFrancisco'})
 df2 = dados2.drop(columns={'Suburb', 'Type', 'Method', 'Postcode', 'SellerG','Date', 'Car', 'CouncilArea', 'Regionname', 'Propertycount', 'ParkingArea', 'BuildingArea'})
@@ -20,13 +20,15 @@ print("Dados do ficheiro 1:")
 print(df1.head())
 print("\nDados do ficheiro 2:")
 print(df2.head())
+
 #Integração de Dados
 df_combinado = pd.concat([df1, df2], axis=0)
 print("\nConjunto de dados combinado:")
 print(df_combinado.head())
 df_combinado.to_csv('dados_integrados.csv', index=False)
 
-#Criar o gráfico de barras para valores em falta
+#Análise dos dados
+# Criar o gráfico de barras para valores em falta
 valores_ausentes = df_combinado.isnull().sum()
 print(f"Valores em falta em cada coluna:")
 print(valores_ausentes)
@@ -40,7 +42,7 @@ plt.xticks(rotation=45, ha='right')
 plt.tight_layout()
 plt.show()
 
-#Deteta outliers
+#Detetar outliers
 def calcular_quantidade_outliers(df_combinado, coluna_a_manter):
     colunas_para_calcular_outliers = df_combinado.columns.difference([coluna_a_manter])
     Q1 = df_combinado[colunas_para_calcular_outliers].quantile(0.25)

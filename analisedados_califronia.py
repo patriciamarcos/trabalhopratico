@@ -60,10 +60,8 @@ def calcular_quartis(lista):
 dados_combinados = pd.read_csv('dados_combinado_california.csv')
 
 estatisticas_descritivas = {}
-
-# Loop for para calcular estatísticas descritivas para cada variável
 for coluna in dados_combinados.columns:
-    valores = dados_combinados[coluna].dropna()  # Remover valores em falta
+    valores = dados_combinados[coluna]
     estatisticas_descritivas[coluna] = {
         'Média': calcular_media(valores),
         'Mediana': calcular_mediana(valores),
@@ -75,15 +73,8 @@ for coluna in dados_combinados.columns:
         'Quartis': calcular_quartis(valores)
     }
 
-# Exibir as estatísticas descritivas calculadas
 for coluna, estatisticas in estatisticas_descritivas.items():
     print(f"Estatísticas para a coluna '{coluna}':")
     for estatistica, valor in estatisticas.items():
         print(f"{estatistica}: {valor}")
     print()
-
-def covariancia(Median_House_Value, Distance_to_coast):
-    media_x = sum(Median_House_Value) / len(Median_House_Value)
-    media_y = sum(Distance_to_coast) / len(Distance_to_coast)
-    calcular_covariancia = sum((x - media_x)*(y - media_y) for x, y in zip(X, Distance_to_coast))/ (len(X) - 1)
-    return calcular_covariancia

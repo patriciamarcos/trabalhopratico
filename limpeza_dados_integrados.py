@@ -2,12 +2,12 @@ import pandas as pd
 from datetime import datetime
 from scipy.stats.mstats import winsorize
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
 from sklearn.preprocessing import MinMaxScaler
 import seaborn as sns
+import numpy as np
 
-dados1 = pd.read_csv('C:\\Users\\carlo\\OneDrive\\PycharmProjects\\projeto\\California_Houses.csv')
-dados2 = pd.read_csv('C:\\Users\\carlo\\OneDrive\\PycharmProjects\\projeto\\Melbourne_housings.csv', low_memory=False)
+dados1 = pd.read_csv('C:\\Users\\patri\\Desktop\\ubi\\bsc_iacd\\2023_2024\\2_semestre\\elem IA\\trabalho_pratico\\dados\\California_Houses.csv')
+dados2 = pd.read_csv('C:\\Users\\patri\\Desktop\\ubi\\bsc_iacd\\2023_2024\\2_semestre\\elem IA\\trabalho_pratico\\dados\\Melbourne_housings.csv', low_memory=False)
 
 
 df1 = dados1.drop(columns={'Median_Income','Population','Households', 'Distance_to_LA', 'Distance_to_SanDiego', 'Distance_to_SanJose', 'Distance_to_SanFrancisco'})
@@ -27,13 +27,12 @@ mediana_por_coluna = colunas_numericas.median()
 df_combinado[colunas_numericas.columns] = colunas_numericas.fillna(mediana_por_coluna)
 print(df_combinado)
 
-
 #Tratamento outliers
-#colunas_para_winsorize = df_combinado.columns.difference(['Address'])
+colunas_para_winsorize = df_combinado.columns.difference(['Address'])
 
 # Aplicar Winsorização em todas as colunas selecionadas
-#for coluna in colunas_para_winsorize:
-#    df_combinado[coluna] = winsorize(df_combinado[coluna], limits=[0.05, 0.05])
+for coluna in colunas_para_winsorize:
+    df_combinado[coluna] = winsorize(df_combinado[coluna], limits=[0.05, 0.05])
 
 
 #Normalização de Dados por Min-Max Scaling
@@ -49,10 +48,8 @@ for coluna in colunas_para_plotar:
     plt.title(f'Distribuição dos Valores Normalizados para a coluna {coluna}')
     plt.show()
 
-
 ####Apresentação narrativa(gráficos)
 colunas_para_incluir = df_combinado.columns.difference(['Address'])
-
 plt.figure(figsize=(10, 8))
 sns.heatmap(df_combinado[colunas_para_incluir].corr(), annot=True, cmap='coolwarm', fmt=".2f")
 plt.title("Mapa de Calor de Correlação")
